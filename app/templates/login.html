@@ -11,7 +11,7 @@
 
 {% block content %}
   {% include './includes/nav.html' %}
-  <form method="POST" class="w-20 mx-auto">
+  <form method="POST" action="{{ url_for('login') }}" class="w-20 mx-auto">
     {{ form.hidden_tag() }}
     <h1>Reverie</h1>
     <h3>Connect Through Sound.</h3>
