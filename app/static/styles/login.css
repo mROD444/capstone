@@ -1,6 +1,23 @@
 *{
     background-color: rgb(54, 74, 112);
     color:rgb(141, 119, 92);
-    font-size: 30px;
-    font-weight: 600;
+}
+h1{
+    padding-top: 15%;
+    text-align: center;
+    font-size: 80px;
+}
+#emailHelp{
+    color:white;
+}
+h3,h2{
+    text-align: center;
+}
+.dropdown-item{
+    color: white;
+}
+
+.cus-input:focus{
+    border: 1px solid black;
+    box-shadow: pink 0px 3px 8px;
 }
