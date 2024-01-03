@@ -1,11 +1,17 @@
-from flask import request, render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
+from flask_login import login_user, current_user, login_required, logout_user
 from app import app
-from app.forms import LoginForm, SignUpForm
-from app.models import db, User
-from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user, logout_user, current_user, login_required
-from sqlalchemy.exc import IntegrityError
+from app.models import User, db
+from app.extensions import login_manager
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 
+
+SPOTIPY_CLIENT_ID = '24f5696040ef42d6a4d1e90f7b55da4d'
+SPOTIPY_CLIENT_SECRET = "7b3a085bf59e40d29d14646f81a5e24b"
+SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:5000/spotify_callback'
+
+sp_oauth = SpotifyOAuth(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI, scope='user-library-read user-read-email')
 
 
 @app.route('/')
@@ -13,66 +19,33 @@ from sqlalchemy.exc import IntegrityError
 def home():
     return render_template('home.html')
 
-
-
-#fix issue where it wont redirect you to HOMEPAGE when logging in to existing account.... 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        username_or_email = form.email.data
-        password = form.password.data
-
-        user = None
-        if '@' in username_or_email:
-            user = User.query.filter_by(email=username_or_email).first()
-        else:
-            user = User.query.filter_by(username=username_or_email).first()
-
-        if user:
-            if check_password_hash(user.password, password):
-                login_user(user)
-                flash(f'Welcome back, {user.username}!', 'success')
-                return redirect(url_for('home'))
-            else:
-                flash('Invalid password', 'error')
-        else:
-            flash('User not found', 'error')
-
-    return render_template('login.html', form=form)
+@app.route('/spotify_login')
+def spotify_login():
+    auth_url = sp_oauth.get_authorize_url()
+    return redirect(auth_url)
 
 
 
+@app.route('/spotify_callback')
+def spotify_callback():
+    token_info = sp_oauth.get_access_token(request.args['code'])
+    access_token = token_info['access_token']
 
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    form = SignUpForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        username = form.username.data
-        email = form.email.data
-        password = form.password.data
+    sp = spotipy.Spotify(auth=access_token)
+    user_info = sp.me()
 
-        hashed_password = generate_password_hash(password)
+    user = User.query.filter_by(spotify_id=user_info['id']).first()
 
-        try:
-            user = User(username, email, hashed_password)
-            db.session.add(user)
-            db.session.commit()
+    if not user:
+        user = User(spotify_id=user_info['id'], username=user_info['display_name'])
+        db.session.add(user)
+        db.session.commit()
 
-            print(f"User {user.username} created successfully")
-            login_user(user)
-            flash(f'Welcome to Reverie, {user.username}!', 'success')
-            return redirect(url_for('home'))
-        except IntegrityError as e:
-            db.session.rollback()
-            print(f"Error during signup: {e}")
-            if 'user_email_key' in str(e):
-                flash('Email already exists. Please choose another.', 'error')
-            else:
-                flash('An error occurred. Please try again.', 'error')
+        login_user(user)
 
+    flash('Successfully logged in with Spotify!', 'success')
+    return redirect(url_for('home'))
 
-    return render_template('signup.html', form=form)
 
 
 
