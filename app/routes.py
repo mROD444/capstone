@@ -1,10 +1,10 @@
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, login_required, logout_user
 from app import app
 from app.models import User, db
-from app.extensions import login_manager
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+
 
 
 SPOTIPY_CLIENT_ID = '24f5696040ef42d6a4d1e90f7b55da4d'
@@ -55,3 +55,33 @@ def logout():
     flash('Successfully logged out!', 'warning')
     logout_user()
     return redirect(url_for('login'))
+
+    # if current_user.is_autheticated:
+    # else:
+    #     flash("Log in to your Spotify account to dive into Reverie's cool perks!")
+    #     return render_template('spotify_login.html')
+    
+@app.route('/discover')
+def discover():
+    return render_template('discover.html')
+
+@app.route('/recently_played')
+def recently_played():
+    return render_template('recently-played.html')
+
+
+@app.route('/lyrics')
+def lyrics():
+    return render_template('lyrics.html')
+
+@app.route('/topartists')
+def topArtists():
+    return render_template('artists.html')
+
+@app.route('/topgenres')
+def topGenres():
+    return render_template('genres.html')
+
+@app.route('/toptracks')
+def topTracks():
+    return render_template('songs.html')

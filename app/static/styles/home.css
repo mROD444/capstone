@@ -22,7 +22,7 @@ h1{
     width: 40%;
     font-weight: bold;
     font-size: 55px;
-    transition: transform 1.7s;
+    transition: transform .4s;
 }
 
 .text-body-one{
@@ -39,55 +39,51 @@ h5{
 
 h1:hover {
     background-image: linear-gradient(
-      -225deg,
-      #4bc3bd 0%,
-      #ebe846 29%,
-      #59c3d6 67%,
-      #d535f5 100%
+      -100deg,
+      #ff9011 5%,
+      #34ff71 20%,
+      #52c4cc 70%,
+      #ff6aeb 90%
     );
     background-size: auto auto;
     background-clip: border-box;
-    background-size: 200% auto;
+    background-size: 250% auto;
     color: #fff;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: textclip 3s linear infinite;
-    transform: scale(1.08);
+    transform: scale(1.25);
     display: inline-block;
-    font-size: 55px;
+    font-size: 56px;
+    animation: moveColors 1.5s linear infinite; /* Adjust duration and other properties as needed */
   }
   
-  @keyframes textclip {
+  @keyframes moveColors {
     0% {
-      background-position: 100% 0;
-    }
-    50% {
-      background-position: 0% 0;
+      background-position: 0% 0%;
     }
     100% {
-      background-position: 100% 0;
+      background-position: 100% 0%;
     }
   }
   
 
 
 .home-body-two{
-    padding-top: 15%;
-}
-
+    padding-top: 5%;
+} 
 h2{
-    width: 40%;
+    width: 60%;
     font-weight: bold;
     font-size: 55px;
-    margin-left: 60%;
+    margin-left: 43%;
 }
 
 .text-body-two{
     width: 35%;
     font-weight: 400;
     font-size: 20px;
-    margin-left: 50%;
+    margin-left: 33%;
     padding-top: 20px;
 }
 
@@ -95,7 +91,7 @@ h3{
     width: 40%;
     font-weight: bold;
     font-size: 35px;
-    margin-left: 51%;
+    margin-left: 33%;
     padding-top: 30px;
 }
 
@@ -125,3 +121,16 @@ footer{
     padding-bottom: 3%;
     font-weight: 400;
 }
+
+
+.top-albums{
+    margin-left: 45%;
+    margin-top: -29%;
+    width: 32%;
+    transition: transform 0.4s ease;
+}
+
+.top-albums:hover{
+    transform: scale(1.2);
+}
+

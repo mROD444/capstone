@@ -26,7 +26,7 @@
     left: 0;
     width: 100%;
     height: 7px;
-    background: linear-gradient(90deg, #b2c5ca, #22A39F, #F3EFE0);
+    background: linear-gradient(90deg, rgba(178, 197, 202, 1), rgba(34, 163, 159, 1), rgba(243, 239, 224, 1));
     opacity: 1;
     animation: wavyLine 1.35s infinite linear;
 }
@@ -56,4 +56,15 @@
 .dropdown-menu{
     background-color: #434242;
 }
+
+
+/* Customize the menu icon button */
+.navbar-toggler {
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
+
+
+
 

@@ -31,19 +31,19 @@
             Stats
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Top Artists</a></li>
-            <li><a class="dropdown-item" href="#">Top Genres</a></li>
-            <li><a class="dropdown-item" href="#">Top Tracks</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('topArtists') }}">Top Artists</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('topGenres') }}">Top Genres</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('topTracks') }}">Top Tracks</a></li>
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">Recently Played</a>
+          <a class="nav-link" href="{{ url_for('recently_played') }}">Recently Played</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">Discover</a>
+          <a class="nav-link" href="{{ url_for('discover') }}">Discover</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">Lyrics</a>
+          <a class="nav-link" href="{{ url_for('lyrics') }}">Lyrics</a>
         </li>
         {% if current_user.is_authenticated %}
           <li class="nav-item">
